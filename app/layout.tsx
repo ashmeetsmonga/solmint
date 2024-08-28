@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import ToasterProvider from "@/providers/ToasterProvider";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,9 @@ export default function RootLayout({
         <ToasterProvider />
         <div className="w-screen h-screen flex justify-center items-center">
           <Card className="w-[500px] h-4/6 flex flex-col">
-            <CardTitle className="text-6xl font-black text-center pt-8">SolaMint</CardTitle>
+            <Link href="/">
+              <CardTitle className="text-6xl font-black text-center pt-8">SolaMint</CardTitle>
+            </Link>
             <CardContent className="mt-6 w-full flex-grow">{children}</CardContent>
           </Card>
         </div>
