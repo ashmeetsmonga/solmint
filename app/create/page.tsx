@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import { createMint, TOKEN_2022_PROGRAM_ID } from "@solana/spl-token";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import CompactToolTip from "@/components/ui/CompactToolTip";
 
 const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
 
@@ -22,7 +23,10 @@ const CreatePage = () => {
   const router = useRouter();
 
   const fetchBalance = async () => {
-    if (!walletPrivateKey || walletPrivateKey === "") return;
+    if (!walletPrivateKey || walletPrivateKey === "") {
+      toast.error("Please provide wallet");
+      return;
+    }
     const toastId = toast.loading("Fetching Balance");
     try {
       const secretKey = bs58.decode(walletPrivateKey);
@@ -37,7 +41,10 @@ const CreatePage = () => {
   };
 
   const handleAirdrop = async () => {
-    if (!walletPrivateKey || walletPrivateKey === "") return;
+    if (!walletPrivateKey || walletPrivateKey === "") {
+      toast.error("Please provide wallet");
+      return;
+    }
     const toastId = toast.loading("Airdropping 5 SOL");
     try {
       const secretKey = bs58.decode(walletPrivateKey);
@@ -52,6 +59,10 @@ const CreatePage = () => {
   };
 
   const handleCreate = async () => {
+    if (!walletPrivateKey || !decimals || !freezeAuthorityPrivateKey) {
+      toast.error("Please fill all required fields");
+      return;
+    }
     const toastId = toast.loading("Creating Token");
     try {
       const secretKey = bs58.decode(walletPrivateKey);
@@ -75,7 +86,7 @@ const CreatePage = () => {
     <div className="w-full h-full flex flex-col justify-between">
       <div className="flex flex-col gap-4">
         <div>
-          <p className="text-sm text-gray-500 mb-2">Wallet Private Key</p>
+          <p className="text-sm text-gray-500 mb-2">Wallet Private Key *</p>
           <Input
             value={walletPrivateKey}
             onChange={(e) => {
@@ -84,17 +95,17 @@ const CreatePage = () => {
           />
           <div className="mt-2 flex gap-2 items-center">
             <p className="text-sm text-gray-500">Balance: {balance / LAMPORTS_PER_SOL} SOL</p>
-            <RefreshCcw onClick={fetchBalance} size={15} className="text-gray-500 cursor-pointer" />
-            <CircleDollarSign onClick={handleAirdrop} size={17} className="text-gray-500 cursor-pointer" />
+            <CompactToolTip component={<RefreshCcw onClick={fetchBalance} size={15} className="text-gray-500 cursor-pointer" />} title="Refresh" />
+            <CompactToolTip component={<CircleDollarSign onClick={handleAirdrop} size={17} className="text-gray-500 cursor-pointer" />} title="Airdrop 5 SOL" />
           </div>
         </div>
         <div>
-          <p className="text-sm text-gray-500 mb-2">Decimals</p>
+          <p className="text-sm text-gray-500 mb-2">Decimals *</p>
           <Input type="number" value={decimals} onChange={(e) => setDecimals(e.target.valueAsNumber)} />
         </div>
         <div>
           <div className="flex justify-between mb-2">
-            <p className="text-sm text-gray-500">Freeze Authority Private Key</p>
+            <p className="text-sm text-gray-500">Freeze Authority Private Key *</p>
           </div>
           <Input value={freezeAuthorityPrivateKey} onChange={(e) => setFreezeAuthorityPrivateKey(e.target.value)} />
           <div className="flex gap-2 items-center w-full justify-end mt-2">
