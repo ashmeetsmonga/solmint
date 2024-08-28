@@ -2,10 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import { Files } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React from "react";
 import toast from "react-hot-toast";
 
 const TokenSuccessPage = ({ params }: { params: { mintKey: string } }) => {
+  const router = useRouter();
+
   const handleCopy = () => {
     navigator.clipboard
       .writeText(params.mintKey)
@@ -25,7 +28,9 @@ const TokenSuccessPage = ({ params }: { params: { mintKey: string } }) => {
           <p className="font-mono font-bold">{params.mintKey}</p>
         </div>
       </div>
-      <Button className="w-full">Mint Token</Button>
+      <Button onClick={() => router.push("/mint")} className="w-full">
+        Mint Token
+      </Button>
     </div>
   );
 };
