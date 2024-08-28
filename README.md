@@ -1,7 +1,7 @@
 ## SolaMint
 Create and Mint New Tokens on Solana Devnet Blockchain
 
-![Solamint](https://github.com/user-attachments/assets/609ac528-42ab-46e7-b561-913e7dc0bc00)
+![Solamint](https://github.com/user-attachments/assets/619942b3-65da-4520-b0ad-bf2350c00c7c)
 
 ## Getting Started
 
