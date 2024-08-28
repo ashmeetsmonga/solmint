@@ -7,7 +7,7 @@ export default function Home() {
       <Link className="w-1/2" href="/create">
         <Button className="w-full">Create Token</Button>
       </Link>
-      <Link className="w-1/2" href="/create">
+      <Link className="w-1/2" href="/mint">
         <Button className="w-full">Mint Token</Button>
       </Link>
     </div>
