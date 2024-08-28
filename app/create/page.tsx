@@ -106,6 +106,7 @@ const CreatePage = () => {
         </div>
       </div>
       <div className="w-full">
+        <p className="text-xs text-gray-500 mb-2 font-light">* Token Metadata feature is coming soon</p>
         <Button className="w-full" onClick={handleCreate}>
           Create Token
         </Button>
