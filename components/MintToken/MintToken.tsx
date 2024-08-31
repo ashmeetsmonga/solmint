@@ -48,11 +48,11 @@ const MintToken = ({ newTokenDetails }: { newTokenDetails: INewToken | null }) =
       toast.error("Please provide wallet");
       return;
     }
-    const toastId = toast.loading("Airdropping 5 SOL");
+    const toastId = toast.loading("Airdropping 2 SOL");
     try {
       const secretKey = bs58.decode(walletPrivateKey);
       const payer = Keypair.fromSecretKey(secretKey);
-      const airdropSignature = await connection.requestAirdrop(payer.publicKey, 5e9);
+      const airdropSignature = await connection.requestAirdrop(payer.publicKey, 2e9);
       const data = await connection.confirmTransaction(airdropSignature);
       toast.success("Airdrop successful", { id: toastId });
       fetchBalance();
@@ -118,56 +118,61 @@ const MintToken = ({ newTokenDetails }: { newTokenDetails: INewToken | null }) =
     }
   }, [isUseNewlyCreatedToken]);
 
+  useEffect(() => {
+    if (newTokenDetails !== null) setIsUseNewlyCreatedToken(true);
+  }, [newTokenDetails]);
+
   return (
-    <div className="w-full h-full flex flex-col justify-between">
+    <div className="w-full h-[500px] flex flex-col justify-between">
       <div className="flex flex-col gap-3">
         <div className="flex gap-2 items-center w-full mt-2">
           <Checkbox disabled={newTokenDetails === null} checked={isUseNewlyCreatedToken} onCheckedChange={() => setIsUseNewlyCreatedToken((prev) => !prev)} id="terms" />
-          <label htmlFor="terms" className={`text-sm ${newTokenDetails === null ? "text-gray-300" : "text-gray-500"}`}>
+          <label htmlFor="terms" className={`text-sm ${newTokenDetails === null ? "text-lime-800" : "text-gray-950"}`}>
             Use newly created token
           </label>
         </div>
         {!isUseNewlyCreatedToken && (
           <>
             <div>
-              <p className="text-sm text-gray-500 mb-1">Mint Private Key *</p>
+              <p className="text-sm text-gray-950 mb-1">Mint Private Key *</p>
               <Input
                 value={walletPrivateKey}
                 onChange={(e) => {
                   setWalletPrivateKey(e.target.value);
                 }}
+                className="text-lime-500"
               />
               <div className="mt-1 flex gap-2 items-center">
-                <p className="text-sm text-gray-500">Balance: {balance / LAMPORTS_PER_SOL} SOL</p>
-                <CompactToolTip component={<RefreshCcw onClick={fetchBalance} size={15} className="text-gray-500 cursor-pointer" />} title="Refresh" />
-                <CompactToolTip component={<CircleDollarSign onClick={handleAirdrop} size={17} className="text-gray-500 cursor-pointer" />} title="Airdrop 5 SOL" />
+                <p className="text-sm text-gray-950">Balance: {balance / LAMPORTS_PER_SOL} SOL</p>
+                <CompactToolTip component={<RefreshCcw onClick={fetchBalance} size={15} className="text-gray-950 cursor-pointer" />} title="Refresh" />
+                <CompactToolTip component={<CircleDollarSign onClick={handleAirdrop} size={17} className="text-gray-950 cursor-pointer" />} title="Airdrop 2 SOL" />
               </div>
             </div>
             <div>
-              <p className="text-sm text-gray-500 mb-1">Token Key *</p>
-              <Input value={tokenKey} onChange={(e) => setTokenKey(e.target.value)} />
+              <p className="text-sm text-gray-950 mb-1">Token Key *</p>
+              <Input value={tokenKey} onChange={(e) => setTokenKey(e.target.value)} className="text-lime-500" />
             </div>
           </>
         )}
         <div>
-          <p className="text-sm text-gray-500 mb-1">Amount</p>
-          <Input type="number" value={amount} onChange={(e) => setAmount(e.target.valueAsNumber)} />
+          <p className="text-sm text-gray-950 mb-1">Amount</p>
+          <Input type="number" value={amount} onChange={(e) => setAmount(e.target.valueAsNumber)} className="text-lime-500" />
         </div>
         <div>
           <div className="flex justify-between mb-1">
-            <p className="text-sm text-gray-500">Recipient Address *</p>
+            <p className="text-sm text-gray-950">Recipient Address *</p>
           </div>
-          <Input value={recipeintPublicKey} onChange={(e) => setRecipientPublicKey(e.target.value)} />
+          <Input value={recipeintPublicKey} onChange={(e) => setRecipientPublicKey(e.target.value)} className="text-lime-500" />
           <div className="flex gap-2 items-center w-full justify-end mt-2">
             <Checkbox checked={isUsePhantomChecked} onCheckedChange={() => setIsUsePhantomChecked((prev) => !prev)} id="terms" />
-            <label htmlFor="terms" className="text-sm text-gray-500">
+            <label htmlFor="terms" className="text-sm text-gray-950">
               In Phantom Wallet
             </label>
           </div>
         </div>
       </div>
       <div className="w-full">
-        <Button className="w-full" onClick={handleMint}>
+        <Button className="w-full bg-gray-950 text-lime-500 hover:bg-gray-950 hover:text-lime-500" onClick={handleMint}>
           Mint Token
         </Button>
       </div>

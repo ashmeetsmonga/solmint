@@ -13,7 +13,7 @@ const CompactToolTip: FC<CompactToolTipProps> = ({ component, title }) => {
         <TooltipTrigger className="cursor-pointer" asChild>
           {component}
         </TooltipTrigger>
-        <TooltipContent>
+        <TooltipContent side="bottom">
           <p>{title}</p>
         </TooltipContent>
       </Tooltip>
