@@ -145,7 +145,7 @@ const MintToken = ({ newTokenDetails, isLoading, setIsLoading }: { newTokenDetai
                 onChange={(e) => {
                   setWalletPrivateKey(e.target.value);
                 }}
-                className="text-lime-500"
+                className="text-lime-300"
               />
               <div className="mt-1 flex gap-2 items-center">
                 <p className="text-sm text-gray-950">Balance: {balance / LAMPORTS_PER_SOL} SOL</p>
@@ -155,19 +155,19 @@ const MintToken = ({ newTokenDetails, isLoading, setIsLoading }: { newTokenDetai
             </div>
             <div>
               <p className="text-sm text-gray-950 mb-1">Token Key *</p>
-              <Input value={tokenKey} onChange={(e) => setTokenKey(e.target.value)} className="text-lime-500" />
+              <Input value={tokenKey} onChange={(e) => setTokenKey(e.target.value)} className="text-lime-300" />
             </div>
           </>
         )}
         <div>
           <p className="text-sm text-gray-950 mb-1">Amount</p>
-          <Input type="number" value={amount} onChange={(e) => setAmount(e.target.valueAsNumber)} className="text-lime-500" />
+          <Input type="number" value={amount} onChange={(e) => setAmount(e.target.valueAsNumber)} className="text-lime-300" />
         </div>
         <div>
           <div className="flex justify-between mb-1">
             <p className="text-sm text-gray-950">Recipient Address *</p>
           </div>
-          <Input value={recipeintPublicKey} onChange={(e) => setRecipientPublicKey(e.target.value)} className="text-lime-500" />
+          <Input value={recipeintPublicKey} onChange={(e) => setRecipientPublicKey(e.target.value)} className="text-lime-300" />
           <div className="flex gap-2 items-center w-full justify-end mt-2">
             <Checkbox checked={isUsePhantomChecked} onCheckedChange={() => setIsUsePhantomChecked((prev) => !prev)} id="terms" />
             <label htmlFor="terms" className="text-sm text-gray-950">
@@ -177,7 +177,7 @@ const MintToken = ({ newTokenDetails, isLoading, setIsLoading }: { newTokenDetai
         </div>
       </div>
       <div className="w-full">
-        <Button disabled={isLoading} className="w-full bg-gray-950 text-lime-500 hover:bg-gray-950 hover:text-lime-500" onClick={handleMint}>
+        <Button disabled={isLoading} className="w-full bg-gray-950 text-lime-300 hover:bg-gray-950 hover:text-lime-300" onClick={handleMint}>
           Mint Token
         </Button>
       </div>

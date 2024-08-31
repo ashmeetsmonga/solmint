@@ -142,13 +142,13 @@ const CreateToken = ({
           <div className="flex flex-col gap-4 w-full">
             <div>
               <p className="text-sm text-gray-950 mb-2">Decimals *</p>
-              <Input type="number" value={decimals} onChange={(e) => setDecimals(e.target.valueAsNumber)} className="text-lime-500" />
+              <Input type="number" value={decimals} onChange={(e) => setDecimals(e.target.valueAsNumber)} className="text-lime-300" />
             </div>
             <div>
               <div className="flex justify-between mb-2">
                 <p className="text-sm text-gray-950">Freeze Authority Public Key</p>
               </div>
-              <Input value={freezeAuthorityPublicKey} onChange={(e) => setFreezeAuthorityPublicKey(e.target.value)} className="text-lime-500" />
+              <Input value={freezeAuthorityPublicKey} onChange={(e) => setFreezeAuthorityPublicKey(e.target.value)} className="text-lime-300" />
               <div className="flex gap-2 items-center w-full justify-end mt-2">
                 <Checkbox checked={isChecked} onCheckedChange={() => setIsChecked((prev) => !prev)} />
                 <label htmlFor="terms" className="text-sm text-gray-950">
@@ -159,10 +159,10 @@ const CreateToken = ({
           </div>
           <div className="w-full mt-4">
             <div className="w-full flex flex-col gap-2 lg:flex-row">
-              <Button disabled={isLoading} className="w-full bg-gray-950 text-lime-500 hover:bg-gray-950 hover:text-lime-500" onClick={handleAirdrop}>
+              <Button disabled={isLoading} className="w-full bg-gray-950 text-lime-300 hover:bg-gray-950 hover:text-lime-300" onClick={handleAirdrop}>
                 Airdrop 2 SOL In Phantom
               </Button>
-              <Button disabled={isLoading} className="w-full bg-gray-950 text-lime-500 hover:bg-gray-950 hover:text-lime-500" onClick={handleCreate}>
+              <Button disabled={isLoading} className="w-full bg-gray-950 text-lime-300 hover:bg-gray-950 hover:text-lime-300" onClick={handleCreate}>
                 Create Token (0.2 SOL)
               </Button>
             </div>
@@ -187,20 +187,20 @@ const CreateSuccess = ({ newTokenDetails, setNewTokenDetails }: { newTokenDetail
         <p className="font-black text-4xl tracking-tight text-center mb-4 text-black">Token Created Successfully!!!</p>
         <div className="w-full bg-gray-950 rounded p-4">
           <div className="w-full flex justify-center items-center mb-2 gap-2">
-            <p className="font-light text-sm text-lime-500">New Token(Mint) Id</p>
-            <Files size={20} className="cursor-pointer text-lime-500" onClick={() => handleCopy(newTokenDetails.tokenMint)} />
+            <p className="font-light text-sm text-lime-300">New Token(Mint) Id</p>
+            <Files size={20} className="cursor-pointer text-lime-300" onClick={() => handleCopy(newTokenDetails.tokenMint)} />
           </div>
-          <p className="font-mono font-bold text-lime-500 text-ellipsis overflow-clip">{newTokenDetails.tokenMint}</p>
+          <p className="font-mono font-bold text-lime-300 text-ellipsis overflow-clip">{newTokenDetails.tokenMint}</p>
         </div>
         <div className="w-full bg-gray-950 rounded p-4">
           <div className="w-full flex justify-center items-center mb-2 gap-2">
-            <p className="font-light text-sm text-lime-500">Mint Wallet Private Key</p>
-            <Files size={20} className="cursor-pointer text-lime-500" onClick={() => handleCopy(newTokenDetails.mintWallet)} />
+            <p className="font-light text-sm text-lime-300">Mint Wallet Private Key</p>
+            <Files size={20} className="cursor-pointer text-lime-300" onClick={() => handleCopy(newTokenDetails.mintWallet)} />
           </div>
-          <p className="font-mono font-bold text-ellipsis overflow-clip text-lime-500">{newTokenDetails.mintWallet}</p>
+          <p className="font-mono font-bold text-ellipsis overflow-clip text-lime-300">{newTokenDetails.mintWallet}</p>
         </div>
       </div>
-      <Button onClick={() => setNewTokenDetails(null)} className="w-full bg-gray-950 text-lime-500 hover:bg-gray-950 hover:text-lime-500">
+      <Button onClick={() => setNewTokenDetails(null)} className="w-full bg-gray-950 text-lime-300 hover:bg-gray-950 hover:text-lime-300">
         Create New Token
       </Button>
     </div>
