@@ -8,13 +8,12 @@ import { CircleDollarSign, RefreshCcw } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { getOrCreateAssociatedTokenAccount, mintTo, TOKEN_2022_PROGRAM_ID } from "@solana/spl-token";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import CompactToolTip from "@/components/ui/CompactToolTip";
 import { INewToken } from "@/types";
 
 const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
 
-const MintToken = ({ newTokenDetails }: { newTokenDetails: INewToken | null }) => {
+const MintToken = ({ newTokenDetails, isLoading, setIsLoading }: { newTokenDetails: INewToken | null; isLoading: boolean; setIsLoading: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const [walletPrivateKey, setWalletPrivateKey] = useState("");
   const [balance, setBalance] = useState(0);
   const [tokenKey, setTokenKey] = useState("");
@@ -23,14 +22,14 @@ const MintToken = ({ newTokenDetails }: { newTokenDetails: INewToken | null }) =
   const [isUsePhantomChecked, setIsUsePhantomChecked] = useState(false);
   const [isUseNewlyCreatedToken, setIsUseNewlyCreatedToken] = useState(false);
 
-  const router = useRouter();
-
   const fetchBalance = async () => {
+    if (isLoading) return;
     if (!walletPrivateKey || walletPrivateKey === "") {
       toast.error("Please provide wallet");
       return;
     }
     const toastId = toast.loading("Fetching Balance");
+    setIsLoading(true);
     try {
       const secretKey = bs58.decode(walletPrivateKey);
       const payer = Keypair.fromSecretKey(secretKey);
@@ -41,14 +40,17 @@ const MintToken = ({ newTokenDetails }: { newTokenDetails: INewToken | null }) =
     } catch (error) {
       toast.error("Error in fetching balance", { id: toastId });
     }
+    setIsLoading(false);
   };
 
   const handleAirdrop = async () => {
+    if (isLoading) return;
     if (!walletPrivateKey || walletPrivateKey === "") {
       toast.error("Please provide wallet");
       return;
     }
     const toastId = toast.loading("Airdropping 2 SOL");
+    setIsLoading(true);
     try {
       const secretKey = bs58.decode(walletPrivateKey);
       const payer = Keypair.fromSecretKey(secretKey);
@@ -59,6 +61,7 @@ const MintToken = ({ newTokenDetails }: { newTokenDetails: INewToken | null }) =
     } catch (e) {
       toast.error("Something went wrong", { id: toastId });
     }
+    setIsLoading(false);
   };
 
   const handleMint = async () => {
@@ -67,6 +70,7 @@ const MintToken = ({ newTokenDetails }: { newTokenDetails: INewToken | null }) =
       return;
     }
     const toastId = toast.loading("Minting Token");
+    setIsLoading(true);
     try {
       const secretKey = bs58.decode(walletPrivateKey);
       const payer = Keypair.fromSecretKey(secretKey);
@@ -78,6 +82,7 @@ const MintToken = ({ newTokenDetails }: { newTokenDetails: INewToken | null }) =
       console.log(e);
       toast.error("Something went wrong", { id: toastId });
     }
+    setIsLoading(false);
   };
 
   async function connectPhantom() {
@@ -172,7 +177,7 @@ const MintToken = ({ newTokenDetails }: { newTokenDetails: INewToken | null }) =
         </div>
       </div>
       <div className="w-full">
-        <Button className="w-full bg-gray-950 text-lime-500 hover:bg-gray-950 hover:text-lime-500" onClick={handleMint}>
+        <Button disabled={isLoading} className="w-full bg-gray-950 text-lime-500 hover:bg-gray-950 hover:text-lime-500" onClick={handleMint}>
           Mint Token
         </Button>
       </div>

@@ -15,7 +15,7 @@ import CompactToolTip from "./ui/CompactToolTip";
 
 const SPL_TOKEN_2022_PROGRAM_ID = publicKey("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb");
 
-const Metadata = ({ newTokenDetails }: { newTokenDetails: INewToken | null }) => {
+const Metadata = ({ newTokenDetails, isLoading, setIsLoading }: { newTokenDetails: INewToken | null; isLoading: boolean; setIsLoading: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const [name, setName] = useState("");
   const [symbol, setSymbol] = useState("");
   const [desc, setDesc] = useState("");
@@ -23,13 +23,13 @@ const Metadata = ({ newTokenDetails }: { newTokenDetails: INewToken | null }) =>
 
   const handleMetadata = async () => {
     const toastId = toast.loading("Adding Metadata");
+    setIsLoading(true);
     try {
       const umi = createUmi("https://api.devnet.solana.com");
       const signer = createSignerFromKeypair(umi, fromWeb3JsKeypair(Keypair.fromSecretKey(bs58.decode(newTokenDetails!.mintWallet))));
       umi.use(signerIdentity(signer, true));
 
       const ourMetadata = {
-        // TODO change those values!
         name: name,
         symbol: symbol,
         uri: jsonUri,
@@ -38,7 +38,6 @@ const Metadata = ({ newTokenDetails }: { newTokenDetails: INewToken | null }) =>
 
       const onChainData = {
         ...ourMetadata,
-        // we don't need that
         sellerFeeBasisPoints: percentAmount(0, 2),
         creators: none<Creator[]>(),
         collection: none<Collection>(),
@@ -70,6 +69,7 @@ const Metadata = ({ newTokenDetails }: { newTokenDetails: INewToken | null }) =>
       console.log(e);
       toast.error("Something went wrong, please check console logs", { id: toastId });
     }
+    setIsLoading(false);
   };
 
   return (
@@ -99,7 +99,7 @@ const Metadata = ({ newTokenDetails }: { newTokenDetails: INewToken | null }) =>
       </div>
       <div className="w-full">
         {newTokenDetails ? (
-          <Button className="w-full bg-gray-950 text-lime-500 hover:bg-gray-950 hover:text-lime-500 hover:outline" onClick={handleMetadata}>
+          <Button disabled={isLoading} className="w-full bg-gray-950 text-lime-500 hover:bg-gray-950 hover:text-lime-500 hover:outline" onClick={handleMetadata}>
             Add Metadata
           </Button>
         ) : (

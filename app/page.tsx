@@ -1,7 +1,7 @@
 "use client";
-import CreateToken from "@/components/CreateToken/CreateToken";
+import CreateToken from "@/components/CreateToken";
 import Metadata from "@/components/Metadata";
-import MintToken from "@/components/MintToken/MintToken";
+import MintToken from "@/components/MintToken";
 import { INewToken } from "@/types";
 import { EarthLock } from "lucide-react";
 import { useState } from "react";
@@ -9,6 +9,7 @@ import { useState } from "react";
 export default function Home() {
   const [newTokenDetails, setNewTokenDetails] = useState<INewToken | null>(null);
   const [selected, setSelected] = useState("create");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleScroll = (id: string) => {
     const el = document.getElementById(id);
@@ -94,9 +95,9 @@ export default function Home() {
             <p>* Phantom wallet required (for now)</p>
           </div>
           <h2 className="w-full text-center text-6xl md:text-7xl mb-4 font-black text-black">SolaMint</h2>
-          {selected === "create" && <CreateToken newTokenDetails={newTokenDetails} setNewTokenDetails={setNewTokenDetails} />}
-          {selected === "metadata" && <Metadata newTokenDetails={newTokenDetails} />}
-          {selected === "mint" && <MintToken newTokenDetails={newTokenDetails} />}
+          {selected === "create" && <CreateToken newTokenDetails={newTokenDetails} setNewTokenDetails={setNewTokenDetails} isLoading={isLoading} setIsLoading={setIsLoading} />}
+          {selected === "metadata" && <Metadata newTokenDetails={newTokenDetails} isLoading={isLoading} setIsLoading={setIsLoading} />}
+          {selected === "mint" && <MintToken newTokenDetails={newTokenDetails} isLoading={isLoading} setIsLoading={setIsLoading} />}
         </div>
       </div>
     </div>

@@ -18,7 +18,17 @@ declare global {
   }
 }
 
-const CreateToken = ({ newTokenDetails, setNewTokenDetails }: { newTokenDetails: INewToken | null; setNewTokenDetails: React.Dispatch<React.SetStateAction<INewToken | null>> }) => {
+const CreateToken = ({
+  newTokenDetails,
+  setNewTokenDetails,
+  isLoading,
+  setIsLoading,
+}: {
+  newTokenDetails: INewToken | null;
+  setNewTokenDetails: React.Dispatch<React.SetStateAction<INewToken | null>>;
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [decimals, setDecimals] = useState(9);
   const [freezeAuthorityPublicKey, setFreezeAuthorityPublicKey] = useState("");
   const [isChecked, setIsChecked] = useState(false);
@@ -29,7 +39,7 @@ const CreateToken = ({ newTokenDetails, setNewTokenDetails }: { newTokenDetails:
       return;
     }
     const toastId = toast.loading("Airdropping 2 SOL");
-
+    setIsLoading(true);
     try {
       const phantomPublicKey = await connectPhantom();
       const airdropSignature = await connection.requestAirdrop(phantomPublicKey, 2 * LAMPORTS_PER_SOL);
@@ -39,6 +49,7 @@ const CreateToken = ({ newTokenDetails, setNewTokenDetails }: { newTokenDetails:
       console.log(e?.error);
       toast.error("Something went wrong", { id: toastId });
     }
+    setIsLoading(false);
   };
 
   async function connectPhantom() {
@@ -67,6 +78,7 @@ const CreateToken = ({ newTokenDetails, setNewTokenDetails }: { newTokenDetails:
     }
 
     const toastId = toast.loading("Awaiting Transaction...");
+    setIsLoading(true);
     try {
       const mintWallet = Keypair.generate();
       const phantomPublicKey = await connectPhantom();
@@ -102,6 +114,7 @@ const CreateToken = ({ newTokenDetails, setNewTokenDetails }: { newTokenDetails:
       console.log(e);
       toast.error("Something went wrong", { id: toastId });
     }
+    setIsLoading(false);
   };
 
   const setPhantomWalletAsFreezeAuthority = async () => {
@@ -146,10 +159,10 @@ const CreateToken = ({ newTokenDetails, setNewTokenDetails }: { newTokenDetails:
           </div>
           <div className="w-full mt-4">
             <div className="w-full flex flex-col gap-2 lg:flex-row">
-              <Button className="w-full bg-gray-950 text-lime-500 hover:bg-gray-950 hover:text-lime-500" onClick={handleAirdrop}>
+              <Button disabled={isLoading} className="w-full bg-gray-950 text-lime-500 hover:bg-gray-950 hover:text-lime-500" onClick={handleAirdrop}>
                 Airdrop 2 SOL In Phantom
               </Button>
-              <Button className="w-full bg-gray-950 text-lime-500 hover:bg-gray-950 hover:text-lime-500" onClick={handleCreate}>
+              <Button disabled={isLoading} className="w-full bg-gray-950 text-lime-500 hover:bg-gray-950 hover:text-lime-500" onClick={handleCreate}>
                 Create Token (0.2 SOL)
               </Button>
             </div>
